@@ -1,0 +1,116 @@
+# Assignment: SQL Queries to Find Top Customers and Average Order Values
+
+## 1. Objective
+
+To analyze a sample sales database using SQL and identify the highest-spending customers, calculate average order value (AOV), and determine total sales revenue.
+
+## 2. Dataset overview
+
+The uploaded file `SQL_Sales_Dataset_200_Rows.xlsx` contains 200 sales records with these columns:
+
+| Column          | Description             |
+| --------------- | ----------------------- |
+| `order_id`      | Unique order identifier |
+| `customer_name` | Customer name           |
+| `order_date`    | Date of order           |
+| `category`      | Product category        |
+| `sub_category`  | Product subcategory     |
+| `product_name`  | Product name            |
+| `quantity`      | Quantity purchased      |
+| `unit_price`    | Price per unit          |
+| `total_price`   | Total order value       |
+| `region`        | Sales region            |
+
+## 3. SQL queries and results
+
+### Task 1: Find the top 10 customers by total spending
+
+SQL query:
+
+```
+SELECT
+    customer_name,
+    SUM(total_price) AS total_spending,
+    COUNT(order_id) AS number_of_orders
+FROM sales
+GROUP BY customer_name
+ORDER BY total_spending DESC
+LIMIT 10;
+```
+
+Result:
+
+| Customer           | Total spending | Orders |
+| ------------------ | -------------- | ------ |
+| Lynn Garrison      | 47,940         | 1      |
+| Debbie Turner      | 44,990         | 1      |
+| Megan Charles      | 44,620         | 1      |
+| Michelle Beltran   | 42,471         | 1      |
+| Rick Sanford       | 41,211         | 1      |
+| Patrick Watson     | 37,680         | 1      |
+| Christopher Meyer  | 37,320         | 1      |
+| Todd Barnes        | 36,152         | 1      |
+| Stephanie Martinez | 34,576         | 1      |
+| Kimberly Alvarado  | 31,752         | 1      |
+
+Finding: Lynn Garrison is the highest-spending customer, with an order value of 47,940.
+
+### Task 2: Calculate the average order value (AOV)
+
+AOV measures the average amount spent per order.
+
+SQL query:
+
+```
+SELECT
+    ROUND(AVG(total_price), 2) AS average_order_value
+FROM sales;
+```
+
+Average order value
+
+# 12,100.54
+
+Across 200 orders
+
+Finding: The average order value is 12,100.54.
+
+### Task 3: Calculate total sales revenue
+
+SQL query:
+
+```
+SELECT
+    SUM(total_price) AS total_revenue,
+    COUNT(order_id) AS total_orders
+FROM sales;
+```
+
+| Metric              | Result    |
+| ------------------- | --------- |
+| Total revenue       | 2,420,107 |
+| Total orders        | 200       |
+| Average order value | 12,100.54 |
+
+### Task 4: Find each customer's average order value
+
+SQL query:
+
+```
+SELECT
+    customer_name,
+    ROUND(AVG(total_price), 2) AS average_order_value,
+    COUNT(order_id) AS number_of_orders
+FROM sales
+GROUP BY customer_name
+ORDER BY average_order_value DESC
+LIMIT 10;
+```
+
+Finding: This query ranks customers by their average spending per order. In this dataset, each customer has exactly one order, so each customer's average order value equals that order's total price.
+
+## 4. Conclusion
+
+The SQL analysis identifies the top-spending customers and calculates average order value and total revenue. The business can use these insights to understand order values and identify high-value purchases.
+
+Important observation: The dataset contains 200 unique customers and 200 unique orders. To analyze repeat purchases and customer loyalty, a dataset with multiple orders per customer would be needed.
